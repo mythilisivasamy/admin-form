@@ -1,0 +1,10 @@
+
+ <!--<ng-template shellHost></ng-template>   --->
+ <div [ngSwitch]="_qbase.content.controlType">
+    <div *ngSwitchCase="'stext'">
+        <app-shorttext [qbase]="_qbase"></app-shorttext>
+    </div>
+    <div *ngSwitchCase="'multi'">
+        <app-multi-choice [qbase]="_qbase"></app-multi-choice>
+    </div>
+ </div>

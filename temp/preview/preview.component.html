@@ -1,0 +1,18 @@
+<div class="row">
+<div class="col-lg" style="background-color:lavenderblush;">
+<form [formGroup]="form" novalidate>
+    <div *ngFor="let qbase of temp ">
+      <label [attr.for]="qbase.content.key">{{qbase.content.qTitle}}</label>
+      <div [ngSwitch]="qbase.content.type">
+        <input *ngSwitchCase="'text'" [formControlName]="qbase.content.key!" 
+        [id]="qbase.content.key" [type]="qbase.content.type">
+      <select [id]="qbase.content.key" *ngSwitchCase="'dropdown'"
+      [formControlName]="qbase.content.key!">
+      <option *ngFor="let opt of qbase.content.options" [value]="opt.key">{{opt.value}}</option>
+     </select>
+     <button (click)="next()">Ok</button>
+    </div>
+    </div>
+  </form> 
+  </div>
+  </div>

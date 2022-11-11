@@ -1,0 +1,7 @@
+<h6 class="text-primary">Contents</h6>
+<div *ngFor="let qbase of qbase$ | async">
+<!--<a [routerLink]="[{outlets: { shell: ['create',qbase.block]}}]">{{qbase.content.controlType}}{{qbase.block}}</a>-->
+<a [routerLink]="['create',qbase.block]">{{qbase.content.controlType}}--{{qbase.block}}</a>
+</div>
+
+ 

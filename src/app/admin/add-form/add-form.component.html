@@ -1,0 +1,117 @@
+<form [formGroup]="form" #content="ngForm"> 
+  <div class="row">
+    <div class="col-sm-8 button ">
+      <div class="row">
+        <div class="col">
+            <div class="form-floating my-2">
+                <input
+                type="text"
+                class="form-control"
+                id="fname"
+                placeholder="fname"
+                formControlName="form_name"
+                required
+                />
+                <label for="fname">Enter Form Name</label>
+            </div>
+      
+       <!-- formName validators -->
+      <div
+      *ngIf="form_name!.invalid && (form_name!.dirty || form_name!.touched)"
+      class="alert alert-danger text-danger"
+    >
+      <div *ngIf="form_name!.errors?.['required']">
+        Form Name is required.
+      </div>
+      <div *ngIf="form_name!.errors?.['isString']">
+        Alphabets only allowed
+      </div>
+    </div>
+  </div>
+    <!-------------------------------->
+       <div class="col">
+        <div class="form-floating my-2">
+        <input
+          type="text"
+          class="form-control"
+          id="category"
+          placeholder="category"
+          formControlName="category"
+         />
+         <label for="maxlevel">Enter Category Name</label>
+         </div>
+      
+
+       <!-- category validators -->
+       <div
+       *ngIf="category!.invalid && (category!.dirty || category!.touched)"
+       class="alert alert-danger text-danger"
+     >
+       <div *ngIf="category!.errors?.['required']">
+         Category is required.
+       </div>
+       <div *ngIf="category!.errors?.['isString']">
+         Alphabets only allowed
+       </div>
+     </div>
+    </div>
+     <!-------------------------------->
+
+      <div class="col">
+            <div class="form-floating my-2">
+            <input
+              type="text"
+              class="form-control"
+              id="maxlevel"
+              placeholder="Maximum Level"
+              formControlName="max_level"
+         />
+            <label for="maxlevel" >Enter Level</label>
+          </div>
+      
+       <!-- maxLevel validators -->
+       <div
+       *ngIf="max_level!.invalid && (max_level!.dirty || max_level!.touched)"
+       class="alert alert-danger text-danger"
+     >
+       <div *ngIf="max_level!.errors?.['required']">
+         Max Level is required.
+       </div>
+       <div *ngIf="max_level!.errors?.['isNumber']">
+         Numbers only allowed
+       </div>
+     </div>
+    </div>
+     <!-------------------------------->
+    </div>
+    <hr/>
+
+    <div [hidden]="content.submitted">
+     <p class="h4">Contents</p>
+     <app-q-content formGroupName ="contents"></app-q-content>
+     <div class="d-flex align-items-center">
+      <button type="submit" class="px-5 btn btn-outline-primary mx-auto"  [disabled]="!form.valid" (click)="onSave()">Save</button>
+    </div>
+    </div>
+
+   
+  <div *ngIf="content.submitted">
+    <p class="text-success h5">Content Saved Successfully</p>
+    <div class="d-flex align-items-center">
+    <button class="px-5 btn btn-outline-primary mx-auto" (click)="content.resetForm();onAddContent()">Add Content</button>
+    </div>
+  </div>
+    </div><!--End of col-sm-9-->
+
+    <div class="col-sm-4 button">
+      <p class="text-primary border-bottom fw-bold">Contents</p>
+      <app-display-content></app-display-content>
+   </div>
+   
+  </div> <!--End of row-->
+  
+</form>
+
+<!--<div><pre>{{form.value | json }}</pre></div>-->
+
+

@@ -1,0 +1,177 @@
+<ng-container [formGroup]="contents">
+  <div class="mb-3 row">
+    <label for="qtitle" class="col-sm-2 col-form-label">Question Title</label>
+    <div class="col-sm-4">
+      <input
+        type="text"
+        class="form-control-plaintext border-bottom"
+        id="qtitle"
+        formControlName="q_title"
+        placeholder="Enter Question"
+      />
+    </div>
+    <label for="type" class="col-sm-2 col-form-label">Content Type</label>
+    <div class="col-sm-4">
+      <select
+        class="form-select"
+        formControlName="content_type"
+        (change)="onTypeChange()"
+      >
+        <option
+          *ngFor="let type of types; let idx = index"
+          [ngValue]="type.key"
+          [selected]="type.key === ''"
+        >
+          {{ type.value }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <!-- QTitle validators -->
+  <div class="mb-3 row">
+  <div
+  *ngIf="q_title!.invalid && (q_title!.dirty || q_title!.touched)"
+  class="alert alert-danger text-danger"
+>
+  <div *ngIf="q_title!.errors?.['required']">
+    Question is required.
+  </div>
+  <div *ngIf="q_title!.errors?.['isString']">
+   Alphabets only allowed
+  </div>
+</div>
+</div>
+  <!---------Set Answers------------------>
+  <!--<div [ngSwitch]="type">-->
+    <div *ngIf="type=='multi_choice' || type=='check_box' || type=='radio'" formArrayName="answers">
+      <div
+        *ngFor="let ctrl of answers.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="d-inline-flex mb-2 text-bg-white">
+          <div *ngIf="type=='multi_choice'">
+          <label for="value" class="form-control-sm">Enter Choice </label>
+          </div>
+          <div *ngIf="type=='check_box'">
+            <label for="value" class="form-control-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square-fill" viewBox="0 0 16 16">
+              <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
+            </svg> </label>
+          </div>
+          <div *ngIf="type=='radio'">
+            <label for="value" class="form-control-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            </svg></label>
+            </div>
+
+          <input
+            id="value"
+            class="form-control-sm"
+            formControlName="value"
+            (change)="setKey(i)"
+          />
+
+          <div formArrayName="levels">
+            <div class="d-inline-flex text-bg-white">
+              <div *ngFor="let ctrl of getLevels(i).controls; let idx = index">
+                <label for="l-{{ idx }}" class="form-control-sm">L{{ idx + 1 }}</label>
+                <input
+                  id="l-{{ idx }}"
+                  class="form-control-sm"
+                  size="1"
+                  [formControlName]="idx"
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-primary mx-2"
+            (click)="onClickDel(i)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-x-circle-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <p class="mx-auto">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-primary"
+          (click)="addChoice()"
+        >
+          Add Choice
+        </button>
+      </p>
+    </div>
+  <!-------------------------------------------->
+  <div *ngIf="type=='email'">
+    <div class="mb-3 row">
+      <label for="email" class="col-sm-2 col-form-label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+      </svg></label>
+      <div class="col-sm-4">
+        <input
+          type="text"
+          class="form-control-plaintext border-bottom"
+          id="email"
+          disabled
+          placeholder="Your Answer"
+        />
+      </div>
+    </div>
+  </div>
+  <!----------------------------------------------->
+  <div *ngIf="type=='short_text' || type=='long_text'">
+     <div class="mb-3 row">
+      <label for="text" class="col-sm-2 col-form-label"><svg  width="16" height="16" fill="currentColor" class="bi bi-justify-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+      </svg></label>
+      <div class="col-sm-4">
+        <input
+          type="text"
+          class="form-control-plaintext border-bottom"
+          id="text"
+          disabled
+          placeholder="Your Answer"
+        />
+      </div>
+    </div>
+  </div>
+
+
+  <!----------------------------------------------->
+
+  <div class="mb-3 row" formGroupName="settings">
+    <p class="h5 border-bottom">Settings</p>
+    <label for="req" class="col-sm-2 col-form-label">Required</label>
+    <div class="col-sm-4">
+      <select class="form-select-sm mt-2" id="req" formControlName="required">
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select>
+    </div>
+    <label for="maxlength" class="col-sm-2 col-form-label">Max Length</label>
+    <div class="col-sm-4">
+      <input
+        class="mt-2"
+        type="text"
+        id="maxlength"
+        formControlName="max_length"
+      />
+    </div>
+    
+  </div>
+  
+</ng-container>
+

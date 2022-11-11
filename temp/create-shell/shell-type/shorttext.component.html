@@ -1,0 +1,17 @@
+
+<input type="text" placeholder="Your question here" [(ngModel)]="qbase.content.qTitle"  /> <hr/>
+
+<h6 class="text-primary">Type Your Answer here<hr/></h6>
+<h6>Settings</h6>
+<h6>Required</h6>
+<p>{{qbase.content.required}}</p>
+<p><select name="" id="" [(ngModel)]="qbase.content.required">
+    <option value="true">true</option>
+    <option value="false">false</option>
+</select></p>
+
+<p>Block No:{{qbase.block}}</p>
+<p>control type: {{qbase.content.controlType}}</p>
+<p>QTitle: {{qbase.content.qTitle}}</p>
+<p>Order: {{qbase.content.order}}</p>
+

@@ -1,0 +1,70 @@
+<form [formGroup]="questionbase" novalidate>
+    <div>
+    <table class="table">
+      <tr>
+        <td colSpan="3">
+           <label for="name">Enter Your Question:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              formControlName="qtitle"
+              required
+            />
+         </td>
+         </tr>
+         <tr>
+            <td>
+                <div formArrayName="choice">
+               <div *ngFor="let ch of choice.controls ;let idx=index">
+                <label for="{{ idx }}">choice:{{idx+1}}</label>
+                <input id="{{ idx }}" type="text" [formControlName]="idx">
+                <button type="button" class="btn btn-sm btn-light">
+                 <span class="badge badge-light" (click)="remove(idx)">X</span>
+                </button>
+               </div>
+                <button (click)="addChoice()">Add Choice</button>
+                </div>
+            </td>
+         </tr>
+         <tr>
+            <td>
+                <button (click)="saveChange()">Save Changes</button>
+             </td>
+        </tr>
+        <tr>
+          <td>
+            <button (click)="showCondition()">Set Condition</button>
+            <table>
+              <tr>
+                <td>
+                  <div *ngIf="isCondition">
+                  If: 
+                  <select name="" id="" (change)="showContent()" formControlName="option">
+                    <option value="" selected></option>
+                    <ng-container *ngFor="let op of qbase.content.options">
+                      <option value={{op.key}}>{{op.value}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+                </td>
+                <td>
+                  <div *ngIf="isContent">
+                   <select name="" id="" formControlName="block">
+                     <ng-container *ngFor="let qbase of cs.getQBases() | async">
+                       <option value={{qbase.block}}>{{qbase.content.controlType}}:{{qbase.block}}</option>
+                     </ng-container>
+                   </select>
+                   <button (click)="saveCondition()">Save condition</button>
+                 </div>
+                </td>
+              </tr>
+              </table>
+          </td>
+        </tr>
+        </table>
+        </div>
+        <div>
+            {{questionbase.value | json}}
+        </div>
+    </form>

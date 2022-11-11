@@ -1,0 +1,22 @@
+<h5>Service Contents</h5>
+<div *ngFor="let qbase of qbase$ | async">
+
+    Block:{{qbase.block}}
+    Key:{{qbase.content.key}}
+    QTitle:{{qbase.content.qTitle}}
+    Required:{{qbase.content.required}}
+    ControlType:{{qbase.content.controlType}}
+    Type:{{qbase.content.type}}
+    order:{{qbase.content.order}}
+    options:
+    <div *ngFor="let option of qbase.content.options ;let idx=index">
+     Key:{{option.key}}
+     value:{{option.value}}
+     </div><hr/>
+     condition:
+     <div *ngFor="let con of qbase.content.condition?.options;let idx=index">
+        option :{{con.option}}
+        Block# :{{con.block}}
+        </div>
+<hr/>
+</div>
